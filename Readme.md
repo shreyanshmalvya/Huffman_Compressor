@@ -32,34 +32,53 @@ Self-made C++ **file archiver** and **archive extractor** programs based on Huff
 * [How to use it?](#how-to-use-it)
 
 ## How does it work?
-_You can check out documentation inside [Compressor.cpp](https://github.com/shreyanshmalvya/Huffman_Coding/blob/master/Compressor.cpp) and [Decompressor.cpp](https://github.com/shreyanshmalvya/Huffman_Coding/blob/master/Decompressor.cpp) files to help you understand Huffman's algorithm's inner workings._
+The ``Huffman algorithm`` is a lossless data compression technique that assigns variable-length codes to characters in a text based on their frequency of occurrence. It creates a binary tree with the most frequent characters at the top and the least frequent at the bottom, and assigns a `0` or `1` to each path from the root to a leaf node. This way, the characters that appear more frequently in the text will have shorter codes, resulting in a more efficient compression.
+
 ### Compressor:
-The `Compressor` is a 2-pass program. What I mean by this is that the `Compressor` reads input files twice.
+The ```Compressor``` is a ``2-pass program`` that reads input files twice.
 
-In the first pass, the program counts usage frequency of every unique byte and creates a weighted translation tree for every used unique byte inversely proportional to its usage frequency and then writes this transformation info to the compressed file for decompression purposes
+In the first pass, the program counts the frequency of occurrence of every unique character in the input text. It then uses this information to create a Huffman tree, where the most frequent characters have shorter codes. The program then writes the Huffman codes for each character to the compressed file, for decompression purposes.
 
-In the second pass, the program translates input files according to the translation tree and writes it to the newly created compressed file
+In the second pass, the program translates the input text using the Huffman codes generated in the first pass, and writes the compressed text to a new file.
+
+This is how the code i provided earlier works, it reads the text as input and generate frequency of each character and then it uses this frequency to generate huffman tree and then it uses this tree to generate codes for each character. It then uses these codes to compress the text, and write the compressed text to a new file.
 
 ### Decompressor:
 The `Decompressor` is a 1-pass program:
 The `Decompressor` first reads translation info and creates a binary tree from it. After this process is done, it uses this binary translation tree to decode the rest of the file
 
-## How to use it?
-1. Compile with `make` using your favourate shell:
-```
-make all
-```
-2. After running make, you can use `archive` command below to compress the file you want:
-* To compress one file use:
-```
-./archive {{filename}}
-```
-* To compress multiple files use:
+# How to use it?
+#### Step 1: Prerequisites 🛠️
 
+- Make sure you have Git and a C++ compiler installed on your computer.
+
+#### Step 2: Clone the repository 🗂️
+
+Clone the repository that contains the Huffman compression code by running the following command in your terminal or command prompt:
+
+```sh
+git clone https://github.com/shreyanshmalvya/Huffman_Compressor.git
 ```
-./archive {{filename1}} {{filename2}} ...
+
+#### Step 3: Navigate to the repository 🚶‍♂️
+Navigate to the directory where the repository has been cloned:
+```sh
+cd Huffman_Compressor
 ```
-3.  And to decompress a compressed file, use the `extract` command below:
+#### Step 4: Compile the code 🔨
+Compile the code by running the following command:
+```sh
+g++ -o huffman huffman_compressor.cpp
 ```
-./extract {{filename}}
+#### Step 5: Run the program 🏃‍♂️
+Run the program by executing the following command:
+```sh
+./huffman_compressor
 ```
+#### Step 6: Compress your text 📦
+- The program will prompt you to enter a string of text to compress. Type or paste in the text you want to compress and press enter.
+- The program will then prompt you to enter a file name to save the compressed text to. Enter a file name and press enter.
+- The program will compress the text using the Huffman algorithm and save the compressed text to the specified file.
+
+### All done! 🎉
+The program will display a message indicating that the compression is complete and the file has been saved.
