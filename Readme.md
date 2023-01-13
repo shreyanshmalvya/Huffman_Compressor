@@ -1,8 +1,6 @@
 <p align="center">
-  <img src="">
+  <img src=https://github.com/shreyanshmalvya/Huffman_Compressor/blob/main/assets/logo.png>
 </p>
-
-<h1 align="center">Huffman Compressor</h1>
 
 <!-- <p align="center">
   <a href="https://github.com/shreyanshmalvya/Huffman_Coding/blob/master/LICENSE">
