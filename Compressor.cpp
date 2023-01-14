@@ -87,8 +87,7 @@ int main() {
     cout << "Enter text to compress: ";
     getline(cin, text);
 
-    cout << "Enter file name to save compressed text: ";
-    cin >> fileName;
+    fileName = "compressed_message.txt";
 
     Node* root = nullptr;
     buildTree(text, root);
@@ -97,7 +96,9 @@ int main() {
     generateCodes(root, "", codes);
 
     string compressed = compress(text, codes);
-    writeCompressed(compressed, fileName);
+    ofstream outFile(fileName);
+    outFile << compressed;
+    outFile.close();
 
     cout << "Compression complete. File saved as " << fileName << endl;
 
