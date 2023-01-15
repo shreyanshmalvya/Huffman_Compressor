@@ -1,4 +1,5 @@
 #include <iostream>
+#include <algorithm>
 #include <fstream>
 #include <queue>
 #include <unordered_map>
@@ -49,8 +50,9 @@ Node* buildHuffmanTree(unordered_map<char, int> freq) {
 }
 
 // Function to decode the encoded message
-void decode(Node* root, string encodedMessage, string& decodedMessage) {
+string decode(Node* root, string encodedMessage) {
     Node* current = root;
+    string decodedMessage = "";
     for (char ch : encodedMessage) {
         current = (ch == '0') ? current->left : current->right;
         if (!current->left && !current->right) {
@@ -58,30 +60,42 @@ void decode(Node* root, string encodedMessage, string& decodedMessage) {
             current = root;
         }
     }
+    reverse(decodedMessage.begin(), decodedMessage.end());
+    return decodedMessage;
 }
 
 int main() {
     unordered_map<char, int> freq;
-    ifstream encodedFile("compressed_message.txt");
-    string encodedMessage;
+    // Reading encoded message from file
+    string fileName = "compressed_message.txt";
+    ifstream file(fileName);
+    string encodedMessage, line;
 
-    // Reading encoded message from file and buliding the map simenteneously 
-    if (encodedFile.is_open()) {
-        char ch;
-        while(encodedFile >> ch){
-            freq[ch]++;
-            encodedMessage += ch;
+    // Extracting the hashmap from the beginning of the file
+    if (file.is_open()) {
+        getline(file, line);
+        size_t pos = 0, next;
+        while ((next = line.find("|", pos)) != string::npos) {
+            size_t colon = line.find(":", pos);
+            char ch = line[pos];
+            freq[line[pos]] = stoi(line.substr(colon + 1, next - colon - 1));
+            pos = next + 1;
         }
-        encodedFile.close();
+        // Reading the rest of the file (the encoded message)
+        while (getline(file, line)) {
+            encodedMessage += line;
+        }
+        file.close();
     } else {
         cout << "Error opening file" << endl;
         return 1;
     }
 
+    for(auto x : freq) cout<<x.first <<" "<<x.second<<endl;
+
     Node* root = buildHuffmanTree(freq);
 
-    string decodedMessage;
-    decode(root, encodedMessage, decodedMessage);
+    string decodedMessage = decode(root, encodedMessage);
 
     cout << "Decoded message: " << decodedMessage << endl;
 
