@@ -7,7 +7,8 @@
 using namespace std;
 
 // Node of Huffman tree
-struct Node {
+class Node {
+    public:
     char ch;
     int freq;
     Node *left, *right;
@@ -66,21 +67,6 @@ string compress(string text, map<char, string> codes) {
     return compressed;
 }
 
-// Write compressed text to file
-void writeCompressed(string compressed, string fileName) {
-    ofstream outFile(fileName, ios::binary);
-    int len = compressed.length();
-    outFile.write((char*)&len, sizeof(len));
-    for (int i = 0; i < len; i += 8) {
-        int x = 0;
-        for (int j = i; j < i + 8; j++) {
-            x = x * 2 + (compressed[j] - '0');
-        }
-        outFile.write((char*)&x, sizeof(x));
-    }
-    outFile.close();
-}
-
 int main() {
     string text, fileName;
 
@@ -97,10 +83,10 @@ int main() {
 
     string compressed = compress(text, codes);
     ofstream outFile(fileName);
+    for(auto x : codes) outFile << x.first << ':' << x.second << '|';
+    outFile << "\n";
     outFile << compressed;
     outFile.close();
-
-    cout << "Compression complete. File saved as " << fileName << endl;
 
     return 0;
 }
